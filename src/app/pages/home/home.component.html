@@ -1,1 +1,6 @@
-<p>home works!</p>
+<h1>Select a city to check it's forecast</h1>
+<ul>
+  <li *ngFor="let city of cities" class="m-4">
+    <a routerLink="/weather/{{city.value}}">{{city.label}}</a>
+  </li>
+</ul>

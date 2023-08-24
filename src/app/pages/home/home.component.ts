@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
 
+  cities = [
+    { label: 'District of Columbia Forecast', value: 'LWX'},
+    { label: 'Kansas Forecast', value: 'TOP'}
+  ];
+
 }
