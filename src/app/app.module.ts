@@ -9,6 +9,7 @@ import { HomeComponent } from './pages/home/home.component';
 
 import { DropdownModule } from 'primeng/dropdown';
 import { PanelModule } from 'primeng/panel';
+import { ButtonModule } from 'primeng/button';
 
 import { RouterModule } from '@angular/router';
 import { ForecastComponent } from './pages/forecast/forecast.component';
@@ -30,6 +31,7 @@ Chart.register(...registerables);
     BrowserAnimationsModule,
     AppRoutingModule,
     DropdownModule,
+    ButtonModule,
     RouterModule,
     HttpClientModule,
     PanelModule,

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { OnInit } from '@angular/core';
 import { ForecastService } from 'src/app/services/forecast.service';
 import { Chart } from 'chart.js';
 
@@ -12,6 +11,9 @@ import { Chart } from 'chart.js';
 export class ForecastComponent {
 
   cityCode = '';
+  chart: any = null;
+  tempFormat = 'F';
+  periods: string[] = [];
 
   constructor(private route: ActivatedRoute, private service: ForecastService) { }
 
@@ -20,14 +22,14 @@ export class ForecastComponent {
       this.cityCode = params['cityCode'];
       this.service.getForecast(this.cityCode).subscribe(res => {
         const temperatures = res.properties.periods.map((period: any) => period.temperature);
-        const periods = res.properties.periods.map((period: any) => period.name);
-        this.buildChart(temperatures, periods);
+        this.periods = res.properties.periods.map((period: any) => period.name);
+        this.buildChart(temperatures, this.periods);
       })
     })
   }
 
   private buildChart(data: number[], labels: string[]): void {
-    new Chart("myChart", {
+    this.chart = new Chart("myChart", {
       type: 'line',
       data: {
         labels: labels,
@@ -61,6 +63,20 @@ export class ForecastComponent {
         }
       }
     });
+  }
+
+  public changeTemperatureFormat(): void {
+    let data = this.chart.data.datasets[0].data;
+    if (this.tempFormat === 'F') {
+      this.tempFormat = 'C';
+      data = data.map((value: number) => (value - 32) * (5/9))
+    }
+    else {
+      this.tempFormat = 'F'
+      data = data.map((value: number) => (value * (9/5)) + 32);
+    }
+    this.chart.destroy();
+    this.buildChart(data, this.periods);
   }
 
   get cityName(): string {
